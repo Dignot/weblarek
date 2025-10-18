@@ -7,6 +7,20 @@ export class Cart {
 
   constructor(events: EventEmitter) {
     this.events = events;
+
+    // ✅ Добавляем событие для проверки наличия товара
+    this.events.on(
+      "cart:has",
+      ({
+        id,
+        callback,
+      }: {
+        id: string;
+        callback: (inCart: boolean) => void;
+      }) => {
+        callback(this.hasItem(id));
+      }
+    );
   }
 
   private emitChange() {
